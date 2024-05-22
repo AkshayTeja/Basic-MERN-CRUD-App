@@ -28,24 +28,32 @@ app.get("/",(req,res) => {      //get to retrieve something
 
 //Get all notes
 app.get("/notes", async (req,res) => {
+
     //Find the notes
     const notes = await Note.find(); 
+
     //Respond with them
     res.json({ notes: notes });
+
 });
 
 //Get single note based on id
 app.get("/notes/:id", async (req,res) => {
+
     //Get id off the url
     const noteId = req.params.id;
+
     //Find the note using that id
     const note = await Note.findById(noteId);
+
     //Respond with the note
     res.json({ note: note });
+
 });
 
 //Create note
 app.post("/notes", async (req,res) => {    //post to create something
+    
     //Get the sent in data off request body
     const title = req.body.title;
     const body = req.body.body;
@@ -58,25 +66,44 @@ app.post("/notes", async (req,res) => {    //post to create something
 
     //Respond with the new note
     res.json({ note: note });
+
 })
 
 //Update note
 app.put("/notes/:id", async (req,res) => {
+
     //Get the id off the url
     const noteId = req.params.id;
+
     //Get the data off the request body
     const title = req.body.title;
     const body = req.body.body;
+
     //Find and update the record
     await Note.findByIdAndUpdate(noteId,{
         title: title,
         body: body,
     });
+
     //Find updated note
     const note = await Note.findById(noteId);
 
     //Respond with it
     res.json({ note: note});
+
+});
+
+//Delete note
+app.delete("/notes/:id", async (req,res) => {
+
+    //Get id off url
+    const noteId = req.params.id;
+
+    //Delete the record
+    await Note.deleteOne({ _id: noteId }); //Use _id instead of id in delete
+
+    //Respond 
+    res.json({ success: "Note deleted" });
 });
 
 //Start our server
