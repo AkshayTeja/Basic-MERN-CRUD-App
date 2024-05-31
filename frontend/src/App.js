@@ -26,9 +26,19 @@ function App() {
         <div key={note._id}>
           <h3>{note.title}</h3>
         </div>
+
         );
       })}
 
+    </div>
+
+    <div>
+        <h2>Create note</h2>
+        <form>
+          <input name="title"/>
+          <textarea name="body"/>
+          <button type="submit">Create note</button>
+        </form>
     </div>
   </div>;
 
