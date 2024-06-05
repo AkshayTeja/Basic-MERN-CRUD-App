@@ -1,3 +1,5 @@
+//Use npm run dev to launch
+
 //Load env variables
 //Include below if block, because when project deployed on heroku etc,
 //they have their own variables, so only use this locally
