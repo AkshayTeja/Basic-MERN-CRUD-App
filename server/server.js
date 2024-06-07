@@ -12,16 +12,22 @@ if(process.env.NODE_ENV != 'production')
 //Import dependencies
 const express = require("express");
 const cors = require("cors");  //Use to accept requests from any domain
+const cookieParser = require("cookie-parser");
 const connectToDb = require("./config/connectToDb");
 const notesController = require("./controllers/notesControllers");
 const usersController = require("./controllers/usersController");
+const requireAuth = require("./middleware/requireAuth");
 
 //Create an express app
 const app = express();
 
 //Configure express app to read json off request body
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: true,
+    credentials: true,
+}));
+app.use(cookieParser());
 
 //Connect to database
 connectToDb();
@@ -36,7 +42,13 @@ connectToDb();
 //For users
 app.post("/signup",usersController.signup);
 app.post("/login",usersController.login);
-app.post("/logout",usersController.logout);
+app.get("/logout",usersController.logout);
+
+//Using middleware
+//When check-auth is hit, run require-auth and check if logged in and if token's valid
+//If not, return early and send a 401
+//Else call next and move on to check-auth controller function
+app.get("/check-auth",requireAuth,usersController.checkAuth);
 
 //Get all notes
 app.get("/notes", notesController.fetchNotes);
