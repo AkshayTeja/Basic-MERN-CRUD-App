@@ -1,4 +1,5 @@
 //Use bcrypt library to encrypt password
+//Usse jsonwebtoken library to generate jwt
 const bcrypt = require("bcryptjs");
 const User = require("../models/user");
 
@@ -25,13 +26,20 @@ async function signup(req,res) {
     
 }
 
-function login(req,res) {
+async function login(req,res) {
 
     //Get email and password off request body
+    const {email,password} = req.body;
 
     //Find user with requested email
+    //find One returns the first user that matches the condition we put in our object
+    const user = await User.findOne({email});
+    if(!user) return res.sendStatus(401);
 
     //Compare sent in password with found user's password hash
+    //Below line returns true or false
+    const passwordMatch = bcrypt.compareSync(password,user.password);
+    if(!passwordMatch) return res.sendStatus(401);
 
     //Create a jwt token, jwt is json web token is a standardized way to securely send data between two parties. 
     //They contain information (claims) encoded in the JSON format.
