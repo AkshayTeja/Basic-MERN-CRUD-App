@@ -14,6 +14,7 @@ const express = require("express");
 const cors = require("cors");  //Use to accept requests from any domain
 const connectToDb = require("./config/connectToDb");
 const notesController = require("./controllers/notesControllers");
+const usersController = require("./controllers/usersController");
 
 //Create an express app
 const app = express();
@@ -31,6 +32,12 @@ connectToDb();
 /*app.get("/",(req,res) => {      //get to retrieve something
     res.json({ hello: "world" });
 });*/
+
+//For users
+app.post("/signup",usersController.signup);
+app.post("/login",usersController.login);
+app.post("/logout",usersController.logout);
+
 //Get all notes
 app.get("/notes", notesController.fetchNotes);
 //Get single note based on id
