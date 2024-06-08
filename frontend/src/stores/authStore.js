@@ -7,12 +7,34 @@
 
 import { create } from "zustand";
 import axios from "axios";
+import SignupForm from "../components/SignupForm";
 
 const authStore = create((set) => ({
+  loggedIn: null,
+
   loginForm: {
     email: "",
     password: "",
   },
+
+  signupForm: {
+    email: "",
+    password: "",
+  },
+
+  updateSignupForm: (e) => {
+    const  {name,value} = e.target;
+
+    set((state) => {
+        return {
+            signupForm: {
+                ...state.signupForm,
+                [name]: value,
+            },
+        };
+    });
+  },
+
 
   updateLoginForm: (e) => {
     const  {name,value} = e.target;
@@ -28,11 +50,31 @@ const authStore = create((set) => ({
   },
 
    login: async (e) => {
-    e.preventDefault();
 
     const {loginForm} = authStore.getState();
 
     const res = await axios.post("/login",loginForm, {withCredentials: true});
+
+    //Correct credentials has been verified, so procedd
+    set({loggedIn: true});
+
+    //console.log(res);
+  },
+
+  checkAuth: async() => {
+    try{
+      await axios.get("/check-auth",{withCredentials: true});
+      set({loggedIn: true});
+    }
+    catch(err){
+      set({loggedIn: false});
+    }
+  },
+
+  signup: async () => {
+    const {signupForm} = authStore.getState();
+    
+    const res = await axios.post("/signup",signupForm,{withCredentials: true,});
     console.log(res);
   },
 
