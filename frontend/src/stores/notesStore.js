@@ -24,7 +24,7 @@ createForm: {
     //Fetch notes
     //To do AJAX stuff, use library called axios
     //Axios is popular and easy to use
-    const res = await axios.get("http://localhost:3000/notes");
+    const res = await axios.get("/notes");
 
     //Set to state
     //setNotes(res.data.notes); Just use below thing instead of this, in zustand
@@ -54,7 +54,7 @@ createForm: {
     const {createForm, notes} = notesStore.getState();
 
     //Create the note
-    const res = await axios.post("http://localhost:3000/notes",createForm);
+    const res = await axios.post("/notes",createForm);
 
     //Update the state
     //Clear form state, make it empty after clicking submit
@@ -70,7 +70,7 @@ createForm: {
   deleteNote: async (_id) => {
 
     //Delete the note
-    const res = await axios.delete(`http://localhost:3000/notes/${_id}`);
+    const res = await axios.delete(`/notes/${_id}`);
 
     const { notes } = notesStore.getState();
     //Update the state
@@ -117,7 +117,7 @@ createForm: {
     const {updateForm: {title,body,_id},notes} = notesStore.getState();
     
     //Send update request
-    const res = await axios.put(`http://localhost:3000/notes/${_id}`,{title,body});
+    const res = await axios.put(`/notes/${_id}`,{title,body});
     //console.log(res);
 
     //Update state

@@ -1,36 +1,28 @@
 //Use npm run start to launch, run server first, then frontend
 
-import { useState, useEffect } from "react";
-import axios from "axios";
-import notesStore from "../stores/notesStore";
-import Notes from "./Notes";
-import UpdateForm from "./UpdateForm";
-import CreateForm from "./CreateForm";
+import LoginPage from "../pages/LoginPage";
+import NotesPage from "../pages/NotesPage";
+import {BrowserRouter, Routes, Route, Link} from "react-router-dom";
+
 
 function App() {
 
-  //Use the store via zustand
-  const store = notesStore();
-
-  //useEffects
-  useEffect(() => {
-    store.fetchNotes();
-  }, []);
-
+  
   
   return (
   <div className="App">
+    <BrowserRouter>
+      <ul>
+        <li>
 
-    {/*Display*/}
-    <Notes/>
-
-    {/*Create Note*/}
-    <CreateForm/>
-
-    {/*Update Note*/}
-    <UpdateForm/>
+        </li>
+      </ul>
+      <Routes>
+        <Route index element={<NotesPage/>}/>
+        <Route path="/login" element={<LoginPage/>}/>
+      </Routes>
+    </BrowserRouter>
     
-
   </div>
   );
 }
