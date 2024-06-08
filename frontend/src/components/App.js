@@ -6,6 +6,7 @@ import NotesPage from "../pages/NotesPage";
 import {BrowserRouter, Routes, Route, Link} from "react-router-dom";
 import RequireAuth from "./RequireAuth";
 import SignupPage from "../pages/SignupPage";
+import LogoutPage from "../pages/LogoutPage";
 
 
 function App() {
@@ -27,6 +28,9 @@ function App() {
         <li>
           <Link to="/signup">Signup</Link>
         </li>
+        <li>
+          <Link to="/logout">Logout</Link>
+        </li>
       </ul>
 
       <Routes>
@@ -36,6 +40,7 @@ function App() {
           </RequireAuth>}/>
         <Route path="/login" element={<LoginPage/>}/>
         <Route path="/signup" element={<SignupPage/>}/>
+        <Route path="/logout" element={<LogoutPage/>}/>
       </Routes>
     </BrowserRouter>
     
